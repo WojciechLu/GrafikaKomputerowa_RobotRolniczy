@@ -11,7 +11,7 @@
 #  pragma comment(lib, "glu32.lib")     // Link libraries
 #endif
 
-
+typedef enum { FALSE, TRUE } bool;
 
 
 // Ustalanie trybu tekstowego:
@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include "resource.h"           // About box resource identifiers.
 
+
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42		// identyfikator formatu BMP
 #define GL_PI 3.14
@@ -45,10 +46,11 @@ static LPCTSTR lpszAppName = "GL Template";
 static HINSTANCE hInstance;
 
 // Rotation amounts
-static GLfloat xRot = 15.0f;
-static GLfloat yRot = 70.0f;
+static GLfloat xRot = 40.0f;
+static GLfloat yRot = 90.0f;
 
 int pozycjaX = 0;
+int pozycjaX2 = 1200;
 int pozycjaZ = 0;
 
 static GLsizei lastHeight;
@@ -71,8 +73,6 @@ BOOL APIENTRY AboutDlgProc (HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 // Set Pixel Format function - forward declaration
 void SetDCPixelFormat(HDC hDC);
-
-
 
 // Reduces a normal vector specified as a set of three coordinates,
 // to a unit normal vector of length one.
@@ -130,7 +130,7 @@ void calcNormal(float v[3][3], float out[3])
 // Change viewing volume and viewport.  Called when window is resized
 void ChangeSize(GLsizei w, GLsizei h)
 	{
-	GLfloat nRange = 500.0f;
+	GLfloat nRange = 300.0f;
 	GLfloat fAspect;
 	// Prevent a divide by zero
 	if(h == 0)
@@ -148,14 +148,14 @@ void ChangeSize(GLsizei w, GLsizei h)
 	glLoadIdentity();
 	
 	// Establish clipping volume (left, right, bottom, top, near, far)
-    if (w <= h) 
-		glOrtho (-nRange, nRange, -nRange*h/w, nRange*h/w, -nRange*200, nRange*200);
-    else 
-		glOrtho (-nRange*w/h, nRange*w/h, -nRange, nRange, -nRange*200, nRange*200);
+  //  if (w <= h) 
+		//glOrtho (-nRange, nRange, -nRange*h/w, nRange*h/w, -nRange*200, nRange*200);
+  //  else 
+		//glOrtho (-nRange*w/h, nRange*w/h, -nRange, nRange, -nRange*200, nRange*200);
 	
 	// Establish perspective: 
 	
-	//gluPerspective(60.0f,fAspect,1.0,4000);
+	gluPerspective(60.0f,fAspect,1.0,4000);
 	
 
 	glMatrixMode(GL_MODELVIEW);
@@ -211,7 +211,7 @@ void SetupRC()
 
 void skrzynka(void)
 {
-	glColor3d(0.8,0.7,0.3);
+	//glColor3d(0.8,0.7,0.3);
 	
 	
 	glEnable(GL_TEXTURE_2D); // W³¹cz teksturowanie
@@ -873,10 +873,10 @@ void pasZieleni(int pozX, int pozY, int rozmX, int rozmZ) {
 	szescian(pozX, -5, pozY, rozmX, 0, rozmZ);
 }
 
-void pasy(int pozX, int pozZ, int rozmX, int rozmZ) {
+void pasy(int pozX, int pozZ, int rozmX, int rozmZ, int przesuniecieX) {
 	for (int i = 0; i < rozmX; i += 200) {
 		glPushMatrix();
-		glTranslatef(pozycjaX, 0, 0);
+		glTranslatef(przesuniecieX, 0, 0);
 		glColor3d(1, 1, 1);
 		szescian(pozX+i, -3, pozZ, 100, 0, rozmZ);
 		glPopMatrix(); //20 takich 
@@ -909,9 +909,11 @@ void kamien(int x, int y, int z, int r, int slices, int stacks) {
 	gluSphere(obj, r, slices, stacks);
 	glPopMatrix();
 }
-
+//(0, 0, 2000);
+//jeden pasek to 200jednostek
 void mapa(int pozX, int pozZ, int dlugosc) {
-	pasZieleni(-1000+pozX, 603 + pozZ, dlugosc, 400);
+	int szerokoscZieleni = 500;
+	pasZieleni(-1000+pozX, 203 + szerokoscZieleni + pozZ, dlugosc, szerokoscZieleni);
 	pobocze(-1000 + pozX,203 + pozZ, dlugosc,30);
 
 	droga(-1000 + pozX,173 + pozZ, dlugosc,100,1,0,0);
@@ -920,12 +922,12 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 
 	pobocze(-1000 + pozX, -127 + pozZ, dlugosc, 30);
 
-	pasZieleni(-1000 + pozX, -157 + pozZ, dlugosc, 400);
+	pasZieleni(-1000 + pozX, -157 + pozZ, dlugosc, szerokoscZieleni);
 
-	pasy(-1000 + pozX, 78 + pozZ, dlugosc, 10);
-	pasy(-1000 + pozX, -22 + pozZ, dlugosc, 10);
+	pasy(-400 + pozX, 78 + pozZ, dlugosc + 200, 10, pozycjaX);
+	pasy(-400 + pozX, -22 + pozZ, dlugosc +200, 10, pozycjaX);
+
 	//drzewa
-
 	drzewo(0 + pozycjaX, 0, 275, 70);
 	drzewo(100 + pozycjaX, 0, -270, 70);
 	drzewo(200 + pozycjaX, 0, 400, 70);
@@ -942,6 +944,28 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	kamien(100 + pozycjaX, -10, -270, 20, 20, 20);
 	kamien(400 + pozycjaX, -10, 260, 20, 20, 20);
 	kamien(250 + pozycjaX, -10, -310, 20, 20, 20);
+
+	//drzewa i kamienie o 200 jednostek dalej
+	//drzewa2
+	drzewo(0 + pozycjaX2, 0, 275, 70);
+	drzewo(100 + pozycjaX2, 0, -270, 70);
+	drzewo(200 + pozycjaX2, 0, 400, 70);
+	drzewo(300 + pozycjaX2, 0, -300, 70);
+	drzewo(400 + pozycjaX2, 0, 500, 70);
+	drzewo(500 + pozycjaX2, 0, -220, 70);
+
+	pasy(-800 + pozX, 78 + pozZ, dlugosc + 200, 10, pozycjaX2);
+	pasy(-800 + pozX, -22 + pozZ, dlugosc + 200, 10, pozycjaX2);
+
+	//kamienie2
+	kamien(-50 + pozycjaX2, -10, 243, 20, 20, 20);
+	kamien(-50 + pozycjaX2, -10, -219, 20, 20, 20);
+	kamien(0 + pozycjaX2, -10, 300, 20, 20, 20);
+	kamien(150 + pozycjaX2, -10, -210, 20, 20, 20);
+	kamien(150 + pozycjaX2, -10, 238, 20, 20, 20);
+	kamien(100 + pozycjaX2, -10, -270, 20, 20, 20);
+	kamien(400 + pozycjaX2, -10, 260, 20, 20, 20);
+	kamien(250 + pozycjaX2, -10, -310, 20, 20, 20);
 }
 
 void uklad()
@@ -1029,10 +1053,15 @@ void RenderScene(void)
 	glPolygonMode(GL_BACK,GL_LINE);
 
 	glPushMatrix();
-	glTranslatef(-1200,0,pozycjaZ);
-	ciongnik();
+	glTranslatef(1000, -300, -25);
+
+		glPushMatrix();
+		glTranslatef(-800,0,pozycjaZ);
+			ciongnik();
+		glPopMatrix();
+		mapa(0, 0,2000);
 	glPopMatrix();
-	mapa(-4000, 0,10000);
+	//skrzynka();
 
 
 	//uklad();
@@ -1246,7 +1275,12 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 		case WM_TIMER:
 			switch (wParam) {
 				case 1:
-					pozycjaX--;
+					if (pozycjaX <= -1200) 
+						pozycjaX = 600;
+					if (pozycjaX2 <= -1200) 
+						pozycjaX2 = 600;
+					pozycjaX-=4;
+					pozycjaX2-=4;
 					InvalidateRect(hWnd, NULL, FALSE);
 					break;
 			}
@@ -1268,18 +1302,33 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			hRC = wglCreateContext(hDC);
 			wglMakeCurrent(hDC, hRC);
 			SetupRC();
+
+			bitmapData = LoadBitmapFile("rockTexture5.bmp", &bitmapInfoHeader);
+			unsigned int texture1;
+			glGenTextures(1, &texture1);
+			glBindTexture(GL_TEXTURE_2D, texture1);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
+			if (bitmapData)
+				free(bitmapData);
+
+
+
 			glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
 			
 			// ³aduje pierwszy obraz tekstury:
-			bitmapData = LoadBitmapFile("Bitmapy\\checker.bmp", &bitmapInfoHeader);
+			bitmapData = LoadBitmapFile("rockTexture6.bmp", &bitmapInfoHeader);
 			
 			glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
 
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
 
 			// tworzy obraz tekstury
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
@@ -1289,14 +1338,11 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			free(bitmapData);
 
 			// ³aduje drugi obraz tekstury:
-			bitmapData = LoadBitmapFile("Bitmapy\\crate.bmp", &bitmapInfoHeader);
+			bitmapData = LoadBitmapFile("rockTexture6.bmp", &bitmapInfoHeader);
 			glBindTexture(GL_TEXTURE_2D, texture[1]);       // aktywuje obiekt tekstury
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
 
 			// tworzy obraz tekstury
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
