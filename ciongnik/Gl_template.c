@@ -32,11 +32,21 @@ typedef enum { FALSE, TRUE } bool;
 #include <math.h>				// Define for sqrt
 #include <stdio.h>
 #include "resource.h"           // About box resource identifiers.
-
-
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42		// identyfikator formatu BMP
 #define GL_PI 3.14
+time_t t;
+
+
+//tekstury
+
+
+
+
+
 
 // Color Palette handle
 HPALETTE hPalette = NULL;
@@ -52,6 +62,40 @@ static GLfloat yRot = 90.0f;
 int pozycjaX = 0;
 int pozycjaX2 = 1200;
 int pozycjaZ = 0;
+
+int pozycjaXdrzew = 1200;
+int pozycjaXdrzew2 = 0;
+
+int pozycjaZdrzewa1 = 220; 
+int pozycjaZdrzewa2 = 240; 
+int pozycjaZdrzewa3 = 260; 
+int pozycjaZdrzewa4 = 340; 
+int pozycjaZdrzewa5 = 210; 
+int pozycjaZdrzewa6 = 270;
+int pozycjaZdrzewa11 = 280;
+int pozycjaZdrzewa22 = 260;
+int pozycjaZdrzewa33 = 240;
+int pozycjaZdrzewa44 = 200;
+int pozycjaZdrzewa55 = 270;
+int pozycjaZdrzewa66 = 240;
+
+int pozycjaXkamieni = 1000;
+int pozycjaXkamieni2 = -200;
+
+int pozycjaZkamienia1 = 300;
+int pozycjaZkamienia2 = 300;
+int pozycjaZkamienia3 = 300;
+int pozycjaZkamienia4 = 300;
+int pozycjaZkamienia5 = 300;
+int pozycjaZkamienia6 = 300;
+int pozycjaZkamienia11 = 300;
+int pozycjaZkamienia22 = 300;
+int pozycjaZkamienia33 = 300;
+int pozycjaZkamienia44 = 300;
+int pozycjaZkamienia55 = 300;
+int pozycjaZkamienia66 = 300;
+
+//int pozycjaZdzew = rand() % 100 + 200;
 
 static GLsizei lastHeight;
 static GLsizei lastWidth;
@@ -916,9 +960,9 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	pasZieleni(-1000+pozX, 203 + szerokoscZieleni + pozZ, dlugosc, szerokoscZieleni);
 	pobocze(-1000 + pozX,203 + pozZ, dlugosc,30);
 
-	droga(-1000 + pozX,173 + pozZ, dlugosc,100,1,0,0);
-	droga(-1000 + pozX, 73 + pozZ, dlugosc, 100, 0, 1, 0);
-	droga(-1000 + pozX, -27 + pozZ, dlugosc, 100, 0, 0, 1);
+	droga(-1000 + pozX,173 + pozZ, dlugosc,100,0,0,0);
+	droga(-1000 + pozX, 73 + pozZ, dlugosc, 100, 0, 0, 0);
+	droga(-1000 + pozX, -27 + pozZ, dlugosc, 100, 0, 0, 0);
 
 	pobocze(-1000 + pozX, -127 + pozZ, dlugosc, 30);
 
@@ -928,44 +972,43 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	pasy(-400 + pozX, -22 + pozZ, dlugosc +200, 10, pozycjaX);
 
 	//drzewa
-	drzewo(0 + pozycjaX, 0, 275, 70);
-	drzewo(100 + pozycjaX, 0, -270, 70);
-	drzewo(200 + pozycjaX, 0, 400, 70);
-	drzewo(300 + pozycjaX, 0, -300, 70);
-	drzewo(400 + pozycjaX, 0, 500, 70);
-	drzewo(500 + pozycjaX, 0, -220, 70);
+
+	drzewo(0 + pozycjaXdrzew2, 0, pozycjaZdrzewa3, 70);
+	drzewo(100 + pozycjaXdrzew2, 0, -pozycjaZdrzewa4, 70);
+	drzewo(300 + pozycjaXdrzew2, 0, pozycjaZdrzewa1, 70);
+	drzewo(400 + pozycjaXdrzew2, 0, -pozycjaZdrzewa6, 70);
+	drzewo(600 + pozycjaXdrzew2, 0, pozycjaZdrzewa2, 70);
+	drzewo(700 + pozycjaXdrzew2, 0, -pozycjaZdrzewa5, 70);
 
 	//kamienie
-	kamien(-50 + pozycjaX, -10, 243, 20, 20, 20);
-	kamien(-50 + pozycjaX, -10, -219, 20, 20, 20);
-	kamien(0 + pozycjaX, -10, 300, 20, 20, 20);
-	kamien(150 + pozycjaX, -10, -210, 20, 20, 20);
-	kamien(150 + pozycjaX, -10, 238, 20, 20, 20);
-	kamien(100 + pozycjaX, -10, -270, 20, 20, 20);
-	kamien(400 + pozycjaX, -10, 260, 20, 20, 20);
-	kamien(250 + pozycjaX, -10, -310, 20, 20, 20);
+	kamien(-50 + pozycjaXkamieni, -10, pozycjaZkamienia1, 20, 20, 20);
+	kamien(100 + pozycjaXkamieni, -10, -pozycjaZkamienia2, 20, 20, 20);
+	kamien(350 + pozycjaXkamieni, -10, pozycjaZkamienia3, 20, 20, 20);
+	kamien(440 + pozycjaXkamieni, -10, -pozycjaZkamienia4, 20, 20, 20);
+	kamien(660 + pozycjaXkamieni, -10, pozycjaZkamienia5, 20, 20, 20);
+	kamien(790 + pozycjaXkamieni, -10, -pozycjaZkamienia6, 20, 20, 20);
 
-	//drzewa i kamienie o 200 jednostek dalej
+	//drzewa i kamienie o 1200 jednostek dalej
 	//drzewa2
-	drzewo(0 + pozycjaX2, 0, 275, 70);
-	drzewo(100 + pozycjaX2, 0, -270, 70);
-	drzewo(200 + pozycjaX2, 0, 400, 70);
-	drzewo(300 + pozycjaX2, 0, -300, 70);
-	drzewo(400 + pozycjaX2, 0, 500, 70);
-	drzewo(500 + pozycjaX2, 0, -220, 70);
+
+	drzewo(0 + pozycjaXdrzew, 0, pozycjaZdrzewa11, 70);
+	drzewo(100 + pozycjaXdrzew, 0, -pozycjaZdrzewa22, 70);
+	drzewo(300 + pozycjaXdrzew, 0, pozycjaZdrzewa33, 70);
+	drzewo(400 + pozycjaXdrzew, 0, -pozycjaZdrzewa44, 70);
+	drzewo(600 + pozycjaXdrzew, 0, pozycjaZdrzewa55, 70);
+	drzewo(700 + pozycjaXdrzew, 0, -pozycjaZdrzewa66, 70);
 
 	pasy(-800 + pozX, 78 + pozZ, dlugosc + 200, 10, pozycjaX2);
 	pasy(-800 + pozX, -22 + pozZ, dlugosc + 200, 10, pozycjaX2);
 
 	//kamienie2
-	kamien(-50 + pozycjaX2, -10, 243, 20, 20, 20);
-	kamien(-50 + pozycjaX2, -10, -219, 20, 20, 20);
-	kamien(0 + pozycjaX2, -10, 300, 20, 20, 20);
-	kamien(150 + pozycjaX2, -10, -210, 20, 20, 20);
-	kamien(150 + pozycjaX2, -10, 238, 20, 20, 20);
-	kamien(100 + pozycjaX2, -10, -270, 20, 20, 20);
-	kamien(400 + pozycjaX2, -10, 260, 20, 20, 20);
-	kamien(250 + pozycjaX2, -10, -310, 20, 20, 20);
+	kamien(50 + pozycjaXkamieni2, -10, pozycjaZkamienia11, 20, 20, 20);
+	kamien(150 + pozycjaXkamieni2, -10, -pozycjaZkamienia22, 20, 20, 20);
+	kamien(350 + pozycjaXkamieni2, -10, pozycjaZkamienia33, 20, 20, 20);
+	kamien(450 + pozycjaXkamieni2, -10, -pozycjaZkamienia44, 20, 20, 20);
+	kamien(650 + pozycjaXkamieni2, -10, pozycjaZkamienia55, 20, 20, 20);
+	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
+
 }
 
 void uklad()
@@ -1279,8 +1322,54 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 						pozycjaX = 600;
 					if (pozycjaX2 <= -1200) 
 						pozycjaX2 = 600;
-					pozycjaX-=4;
-					pozycjaX2-=4;
+					if (pozycjaXdrzew <= -1600) {
+						pozycjaXdrzew = 800;
+						pozycjaZdrzewa11 = (rand() % 250) + 200;
+						pozycjaZdrzewa22 = (rand() % 250) + 200;
+						pozycjaZdrzewa33 = (rand() % 250) + 200;
+						pozycjaZdrzewa44 = (rand() % 250) + 200;
+						pozycjaZdrzewa55 = (rand() % 250) + 200;
+						pozycjaZdrzewa66 = (rand() % 250) + 200;
+
+					}
+						
+					if (pozycjaXdrzew2 <= -1600) {
+						pozycjaXdrzew2 = 800;
+						pozycjaZdrzewa1 = (rand() % 250) + 200;
+						pozycjaZdrzewa2 = (rand() % 250) + 200;
+						pozycjaZdrzewa3 = (rand() % 250) + 200;
+						pozycjaZdrzewa4 = (rand() % 250) + 200;
+						pozycjaZdrzewa5 = (rand() % 250) + 200;
+						pozycjaZdrzewa6 = (rand() % 250) + 200;
+
+					}
+					if (pozycjaXkamieni <= -1600) {
+						pozycjaXkamieni = 800;
+						pozycjaZkamienia1 = (rand() % 150) + 250;
+						pozycjaZkamienia2 = (rand() % 150) + 250;
+						pozycjaZkamienia3 = (rand() % 150) + 250;
+						pozycjaZkamienia4 = (rand() % 150) + 250;
+						pozycjaZkamienia5 = (rand() % 150) + 250;
+						pozycjaZkamienia6 = (rand() % 150) + 250;
+					}
+					if (pozycjaXkamieni2 <= -1600) {
+						pozycjaXkamieni2 = 800;
+						pozycjaZkamienia11 = (rand() % 150) + 250;
+						pozycjaZkamienia22 = (rand() % 150) + 250;
+						pozycjaZkamienia33 = (rand() % 150) + 250;
+						pozycjaZkamienia44 = (rand() % 150) + 250;
+						pozycjaZkamienia55 = (rand() % 150) + 250;
+						pozycjaZkamienia66 = (rand() % 150) + 250;
+					}
+				
+					pozycjaX-=20;
+					pozycjaX2-=20;
+					pozycjaXdrzew -= 20;
+					pozycjaXdrzew2 -= 20;
+					pozycjaXkamieni -= 20;
+					pozycjaXkamieni2 -= 20;
+
+
 					InvalidateRect(hWnd, NULL, FALSE);
 					break;
 			}
