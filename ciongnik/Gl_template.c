@@ -33,7 +33,6 @@ typedef enum { FALSE, TRUE } bool;
 #include <stdio.h>
 #include "resource.h"           // About box resource identifiers.
 
-
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42		// identyfikator formatu BMP
 #define GL_PI 3.14
@@ -51,7 +50,9 @@ static GLfloat yRot = 90.0f;
 
 int pozycjaX = 0;
 int pozycjaX2 = 1200;
+int pozycjaX3 = 600;
 int pozycjaZ = 0;
+int pozycjaZ2 = 0;
 
 static GLsizei lastHeight;
 static GLsizei lastWidth;
@@ -211,26 +212,26 @@ void SetupRC()
 
 void skrzynka(void)
 {
-	//glColor3d(0.8,0.7,0.3);
-	
-	
+	glColor3d(1.0, 1.0, 1.0);
+
+
 	glEnable(GL_TEXTURE_2D); // W³¹cz teksturowanie
 
-	glBindTexture(GL_TEXTURE_2D,texture[0]);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glBegin(GL_QUADS);
-		glNormal3d(0,0,1);
-		glTexCoord2d(1.0,1.0); glVertex3d(25,25,25);
-		glTexCoord2d(0.0,1.0); glVertex3d(-25,25,25);
-		glTexCoord2d(0.0,0.0); glVertex3d(-25,-25,25);
-		glTexCoord2d(1.0,0.0); glVertex3d(25,-25,25);
+	glNormal3d(0, 0, 1);
+	glTexCoord2d(1.0, 1.0); glVertex3d(25, 25, 25);
+	glTexCoord2d(0.0, 1.0); glVertex3d(-25, 25, 25);
+	glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, 25);
+	glTexCoord2d(1.0, 0.0); glVertex3d(25, -25, 25);
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D,texture[1]);
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glBegin(GL_QUADS);
-		glNormal3d(1,0,0);
-		glTexCoord2d(1.0,1.0); glVertex3d(25,25,25);
-		glTexCoord2d(0.0,1.0); glVertex3d(25,-25,25);
-		glTexCoord2d(0.0,0.0); glVertex3d(25,-25,-25);
-		glTexCoord2d(1.0,0.0); glVertex3d(25,25,-25);
+	glNormal3d(1, 0, 0);
+	glTexCoord2d(1.0, 1.0); glVertex3d(25, 25, 25);
+	glTexCoord2d(1.0, 0.0); glVertex3d(25, -25, 25);
+	glTexCoord2d(0.0, 0.0); glVertex3d(25, -25, -25);
+	glTexCoord2d(0.0, 1.0); glVertex3d(25, 25, -25);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D); // Wy³¹cz teksturowanie
@@ -238,29 +239,29 @@ void skrzynka(void)
 
 
 	glBegin(GL_QUADS);
-		glNormal3d(0,0,-1);
-		glVertex3d(25,25,-25);
-		glVertex3d(25,-25,-25);
-		glVertex3d(-25,-25,-25);
-		glVertex3d(-25,25,-25);
+	glNormal3d(0, 0, -1);
+	glVertex3d(25, 25, -25);
+	glVertex3d(25, -25, -25);
+	glVertex3d(-25, -25, -25);
+	glVertex3d(-25, 25, -25);
 
-		glNormal3d(-1,0,0);
-		glVertex3d(-25,25,-25);
-		glVertex3d(-25,-25,-25);
-		glVertex3d(-25,-25,25);
-		glVertex3d(-25,25,25);
+	glNormal3d(-1, 0, 0);
+	glVertex3d(-25, 25, -25);
+	glVertex3d(-25, -25, -25);
+	glVertex3d(-25, -25, 25);
+	glVertex3d(-25, 25, 25);
 
-		glNormal3d(0,1,0);
-		glVertex3d(25,25,25);
-		glVertex3d(25,25,-25);
-		glVertex3d(-25,25,-25);
-		glVertex3d(-25,25,25);
+	glNormal3d(0, 1, 0);
+	glVertex3d(25, 25, 25);
+	glVertex3d(25, 25, -25);
+	glVertex3d(-25, 25, -25);
+	glVertex3d(-25, 25, 25);
 
-		glNormal3d(0,-1,0);
-		glVertex3d(25,-25,25);
-		glVertex3d(-25,-25,25);
-		glVertex3d(-25,-25,-25);
-		glVertex3d(25,-25,-25);
+	glNormal3d(0, -1, 0);
+	glVertex3d(25, -25, 25);
+	glVertex3d(-25, -25, 25);
+	glVertex3d(-25, -25, -25);
+	glVertex3d(25, -25, -25);
 	glEnd();
 }
 
@@ -280,7 +281,8 @@ glPopMatrix();
 }
 
 void kula(void)
-{	GLUquadricObj*obj;
+{
+	GLUquadricObj*obj;
 	obj=gluNewQuadric();
 	gluQuadricTexture(obj,GL_TRUE);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
@@ -887,8 +889,12 @@ void liscie(int r, int slices, int stacks) {
 	GLUquadricObj* obj;
 	obj = gluNewQuadric();
 	gluQuadricTexture(obj, GL_TRUE);
-	glColor3d(0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glColor3d(1.0, 0.8, 0.8);
+	glEnable(GL_TEXTURE_2D);
 	gluSphere(obj, r, slices, stacks);
+	glDisable(GL_TEXTURE_2D);
 }
 
 void drzewo(int x, int y, int z, int h) {
@@ -906,7 +912,38 @@ void kamien(int x, int y, int z, int r, int slices, int stacks) {
 	glTranslatef(x, y, z);
 	GLUquadricObj* obj;
 	obj = gluNewQuadric();
+	gluQuadricTexture(obj, GL_TRUE);
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glColor3d(1.0, 0.8, 0.8);
+	glEnable(GL_TEXTURE_2D);
 	gluSphere(obj, r, slices, stacks);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+
+void przeszkoda(int pozX, int pozZ) {
+
+	glColor3d(0.7, 0.7, 0.7);
+	glPushMatrix();
+	glTranslated(pozX, 2, pozZ - 5);
+	glRotated(50, 1, 0, 0);
+	glTranslated(-pozX, -2, -pozZ + 5);
+	walecY(pozX, 2, pozZ - 5, 5, 70);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(pozX + 25, 2, pozZ + 20);
+	glRotated(50, 0, 0, 1);
+	glTranslated(-pozX - 25, -2, -pozZ - 20);
+	walecY(pozX + 25, 2, pozZ + 20, 5, 70);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(pozX, 2 + 45, pozZ - 7);
+	glRotated(130, 1, 0, 0);
+	glTranslated(-pozX, -2 - 45, -pozZ + 7);
+	walecY(pozX, 2 + 45, pozZ - 7, 5, 70);
 	glPopMatrix();
 }
 //(0, 0, 2000);
@@ -966,6 +1003,9 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	kamien(100 + pozycjaX2, -10, -270, 20, 20, 20);
 	kamien(400 + pozycjaX2, -10, 260, 20, 20, 20);
 	kamien(250 + pozycjaX2, -10, -310, 20, 20, 20);
+
+
+	przeszkoda(pozycjaX3, pozycjaZ2);
 }
 
 void uklad()
@@ -1062,6 +1102,7 @@ void RenderScene(void)
 		mapa(0, 0,2000);
 	glPopMatrix();
 	//skrzynka();
+	//kula();
 
 
 	//uklad();
@@ -1277,11 +1318,19 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 				case 1:
 					if (pozycjaX <= -1200) 
 						pozycjaX = 600;
-					if (pozycjaX2 <= -1200) 
+					if (pozycjaX2 <= -1200)
 						pozycjaX2 = 600;
-					pozycjaX-=4;
-					pozycjaX2-=4;
+					if (pozycjaX3 <= -1200)
+						pozycjaX3 = 600;
+					pozycjaX -= 4;
+					pozycjaX2 -= 4;
+					pozycjaX3 -= 4;
 					InvalidateRect(hWnd, NULL, FALSE);
+
+					//if (pozycjaX3 < 0 && pozycjaZ == 0) {
+					//	//pozycjaZ += 50;
+					//	pozycjaX -= 1;
+					//}
 					break;
 			}
 			break;
@@ -1302,57 +1351,61 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			hRC = wglCreateContext(hDC);
 			wglMakeCurrent(hDC, hRC);
 			SetupRC();
-
-			bitmapData = LoadBitmapFile("rockTexture5.bmp", &bitmapInfoHeader);
-			unsigned int texture1;
-			glGenTextures(1, &texture1);
-			glBindTexture(GL_TEXTURE_2D, texture1);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
-			if (bitmapData)
-				free(bitmapData);
-
-
-
 			glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
-			
-			// ³aduje pierwszy obraz tekstury:
-			bitmapData = LoadBitmapFile("rockTexture6.bmp", &bitmapInfoHeader);
-			
-			glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			// ³aduje pierwszy obraz tekstury:
+			bitmapData = LoadBitmapFile("liscie.bmp", &bitmapInfoHeader);
+
+			glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 			// tworzy obraz tekstury
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
-						 bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
-			
-			if(bitmapData)
-			free(bitmapData);
+				bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
+
+			if (bitmapData)
+				free(bitmapData);
 
 			// ³aduje drugi obraz tekstury:
-			bitmapData = LoadBitmapFile("rockTexture6.bmp", &bitmapInfoHeader);
+			bitmapData = LoadBitmapFile("kupakamieni.bmp", &bitmapInfoHeader);
 			glBindTexture(GL_TEXTURE_2D, texture[1]);       // aktywuje obiekt tekstury
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 			// tworzy obraz tekstury
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
-						 bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
-			
-			if(bitmapData)
-			free(bitmapData);
+				bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
+
+			if (bitmapData)
+				free(bitmapData);
+
+			bitmapData = LoadBitmapFile("trawa.bmp", &bitmapInfoHeader);
+			glBindTexture(GL_TEXTURE_2D, texture[2]);       // aktywuje obiekt tekstury
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+			// tworzy obraz tekstury
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
+				bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
+
+			if (bitmapData)
+				free(bitmapData);
 
 			// ustalenie sposobu mieszania tekstury z t³em
-			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_MODULATE);
+			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			break;
 
 		// Window is being destroyed, cleanup
@@ -1452,7 +1505,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 				yRot += 5.0f;
 
 			if (wParam == 87) {
-				//pozycjaZ += 10;
+				//pozycjaX += 10;
 			}
 
 			if (wParam == 83) {
