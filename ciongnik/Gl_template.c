@@ -1,10 +1,10 @@
 // Gl_template.c
-//Wy³šczanie b³êdów przed "fopen"
+//WyÂ³Å¡czanie bÂ³ÃªdÃ³w przed "fopen"
 #define  _CRT_SECURE_NO_WARNINGS
 
 
 
-// £adowanie bibliotek:
+// Â£adowanie bibliotek:
 
 #ifdef _MSC_VER                         // Check if MS Visual C compiler
 #  pragma comment(lib, "opengl32.lib")  // Compiler-specific directive to avoid manually configuration
@@ -61,7 +61,9 @@ static GLfloat yRot = 90.0f;
 
 int pozycjaX = 0;
 int pozycjaX2 = 1200;
+int pozycjaX3 = 600;
 int pozycjaZ = 0;
+int pozycjaZ2 = 0;
 
 int pozycjaXdrzew = 1200;
 int pozycjaXdrzew2 = 0;
@@ -101,7 +103,7 @@ static GLsizei lastHeight;
 static GLsizei lastWidth;
 
 // Opis tekstury
-BITMAPINFOHEADER	bitmapInfoHeader;	// nag³ówek obrazu
+BITMAPINFOHEADER	bitmapInfoHeader;	// nagÂ³Ã³wek obrazu
 unsigned char*		bitmapData;			// dane tekstury
 unsigned int		texture[2];			// obiekt tekstury
 
@@ -255,56 +257,56 @@ void SetupRC()
 
 void skrzynka(void)
 {
-	//glColor3d(0.8,0.7,0.3);
-	
-	
-	glEnable(GL_TEXTURE_2D); // W³¹cz teksturowanie
+	glColor3d(1.0, 1.0, 1.0);
 
-	glBindTexture(GL_TEXTURE_2D,texture[0]);
+
+	glEnable(GL_TEXTURE_2D); // WÂ³Â¹cz teksturowanie
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glBegin(GL_QUADS);
-		glNormal3d(0,0,1);
-		glTexCoord2d(1.0,1.0); glVertex3d(25,25,25);
-		glTexCoord2d(0.0,1.0); glVertex3d(-25,25,25);
-		glTexCoord2d(0.0,0.0); glVertex3d(-25,-25,25);
-		glTexCoord2d(1.0,0.0); glVertex3d(25,-25,25);
+	glNormal3d(0, 0, 1);
+	glTexCoord2d(1.0, 1.0); glVertex3d(25, 25, 25);
+	glTexCoord2d(0.0, 1.0); glVertex3d(-25, 25, 25);
+	glTexCoord2d(0.0, 0.0); glVertex3d(-25, -25, 25);
+	glTexCoord2d(1.0, 0.0); glVertex3d(25, -25, 25);
 	glEnd();
-	glBindTexture(GL_TEXTURE_2D,texture[1]);
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glBegin(GL_QUADS);
-		glNormal3d(1,0,0);
-		glTexCoord2d(1.0,1.0); glVertex3d(25,25,25);
-		glTexCoord2d(0.0,1.0); glVertex3d(25,-25,25);
-		glTexCoord2d(0.0,0.0); glVertex3d(25,-25,-25);
-		glTexCoord2d(1.0,0.0); glVertex3d(25,25,-25);
+	glNormal3d(1, 0, 0);
+	glTexCoord2d(1.0, 1.0); glVertex3d(25, 25, 25);
+	glTexCoord2d(1.0, 0.0); glVertex3d(25, -25, 25);
+	glTexCoord2d(0.0, 0.0); glVertex3d(25, -25, -25);
+	glTexCoord2d(0.0, 1.0); glVertex3d(25, 25, -25);
 	glEnd();
 
-	glDisable(GL_TEXTURE_2D); // Wy³¹cz teksturowanie
+	glDisable(GL_TEXTURE_2D); // WyÂ³Â¹cz teksturowanie
 
 
 
 	glBegin(GL_QUADS);
-		glNormal3d(0,0,-1);
-		glVertex3d(25,25,-25);
-		glVertex3d(25,-25,-25);
-		glVertex3d(-25,-25,-25);
-		glVertex3d(-25,25,-25);
+	glNormal3d(0, 0, -1);
+	glVertex3d(25, 25, -25);
+	glVertex3d(25, -25, -25);
+	glVertex3d(-25, -25, -25);
+	glVertex3d(-25, 25, -25);
 
-		glNormal3d(-1,0,0);
-		glVertex3d(-25,25,-25);
-		glVertex3d(-25,-25,-25);
-		glVertex3d(-25,-25,25);
-		glVertex3d(-25,25,25);
+	glNormal3d(-1, 0, 0);
+	glVertex3d(-25, 25, -25);
+	glVertex3d(-25, -25, -25);
+	glVertex3d(-25, -25, 25);
+	glVertex3d(-25, 25, 25);
 
-		glNormal3d(0,1,0);
-		glVertex3d(25,25,25);
-		glVertex3d(25,25,-25);
-		glVertex3d(-25,25,-25);
-		glVertex3d(-25,25,25);
+	glNormal3d(0, 1, 0);
+	glVertex3d(25, 25, 25);
+	glVertex3d(25, 25, -25);
+	glVertex3d(-25, 25, -25);
+	glVertex3d(-25, 25, 25);
 
-		glNormal3d(0,-1,0);
-		glVertex3d(25,-25,25);
-		glVertex3d(-25,-25,25);
-		glVertex3d(-25,-25,-25);
-		glVertex3d(25,-25,-25);
+	glNormal3d(0, -1, 0);
+	glVertex3d(25, -25, 25);
+	glVertex3d(-25, -25, 25);
+	glVertex3d(-25, -25, -25);
+	glVertex3d(25, -25, -25);
 	glEnd();
 }
 
@@ -324,7 +326,8 @@ glPopMatrix();
 }
 
 void kula(void)
-{	GLUquadricObj*obj;
+{
+	GLUquadricObj*obj;
 	obj=gluNewQuadric();
 	gluQuadricTexture(obj,GL_TRUE);
 	glBindTexture(GL_TEXTURE_2D,texture[0]);
@@ -339,23 +342,23 @@ void kula(void)
 
 
 // LoadBitmapFile
-// opis: ³aduje mapê bitow¹ z pliku i zwraca jej adres.
-//       Wype³nia strukturê nag³ówka.
-//	 Nie obs³uguje map 8-bitowych.
+// opis: Â³aduje mapÃª bitowÂ¹ z pliku i zwraca jej adres.
+//       WypeÂ³nia strukturÃª nagÂ³Ã³wka.
+//	 Nie obsÂ³uguje map 8-bitowych.
 unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader)
 {
-	FILE *filePtr;							// wskaŸnik pozycji pliku
-	BITMAPFILEHEADER	bitmapFileHeader;		// nag³ówek pliku
+	FILE *filePtr;							// wskaÅ¸nik pozycji pliku
+	BITMAPFILEHEADER	bitmapFileHeader;		// nagÂ³Ã³wek pliku
 	unsigned char		*bitmapImage;			// dane obrazu
 	int					imageIdx = 0;		// licznik pikseli
-	unsigned char		tempRGB;				// zmienna zamiany sk³adowych
+	unsigned char		tempRGB;				// zmienna zamiany skÂ³adowych
 
 	// otwiera plik w trybie "read binary"
 	filePtr = fopen(filename, "rb");
 	if (filePtr == NULL)
 		return NULL;
 
-	// wczytuje nag³ówek pliku
+	// wczytuje nagÂ³Ã³wek pliku
 	fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 	
 	// sprawdza, czy jest to plik formatu BMP
@@ -365,16 +368,16 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 		return NULL;
 	}
 
-	// wczytuje nag³ówek obrazu
+	// wczytuje nagÂ³Ã³wek obrazu
 	fread(bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 
-	// ustawia wskaŸnik pozycji pliku na pocz¹tku danych obrazu
+	// ustawia wskaÅ¸nik pozycji pliku na poczÂ¹tku danych obrazu
 	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
-	// przydziela pamiêæ buforowi obrazu
+	// przydziela pamiÃªÃ¦ buforowi obrazu
 	bitmapImage = (unsigned char*)malloc(bitmapInfoHeader->biSizeImage);
 
-	// sprawdza, czy uda³o siê przydzieliæ pamiêæ
+	// sprawdza, czy udaÂ³o siÃª przydzieliÃ¦ pamiÃªÃ¦
 	if (!bitmapImage)
 	{
 		free(bitmapImage);
@@ -385,14 +388,14 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 	// wczytuje dane obrazu
 	fread(bitmapImage, 1, bitmapInfoHeader->biSizeImage, filePtr);
 
-	// sprawdza, czy dane zosta³y wczytane
+	// sprawdza, czy dane zostaÂ³y wczytane
 	if (bitmapImage == NULL)
 	{
 		fclose(filePtr);
 		return NULL;
 	}
 
-	// zamienia miejscami sk³adowe R i B 
+	// zamienia miejscami skÂ³adowe R i B 
 	for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx+=3)
 	{
 		tempRGB = bitmapImage[imageIdx];
@@ -400,7 +403,7 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 		bitmapImage[imageIdx + 2] = tempRGB;
 	}
 
-	// zamyka plik i zwraca wskaŸnik bufora zawieraj¹cego wczytany obraz
+	// zamyka plik i zwraca wskaÅ¸nik bufora zawierajÂ¹cego wczytany obraz
 	fclose(filePtr);
 	return bitmapImage;
 }
@@ -503,7 +506,7 @@ void walecX(int zmienna_x, int zmienna_y, int zmienna_z, int r, int h) {
 	glEnd();
 }
 
-void ko³a(int r, int h) {
+void koÂ³a(int r, int h) {
 	glColor3d(1, 0.0, 0.0);
 	walecZ(40, 0, 0, r, h);
 
@@ -529,7 +532,7 @@ void ko³a(int r, int h) {
 	walecZ(0, 0, -1, r * 0.7, h + 2);
 }
 
-void oœ() {
+void oÅ“() {
 	int a = 5 / 2;
 	glColor3d(0.3, 0.3, 0.3);
 	walecZ(40, 0, a, 1, 40);
@@ -746,7 +749,7 @@ void kloc(int x, int y, int z) {
 
 }
 
-void sprzêt() {
+void sprzÃªt() {
 	
 	glColor3d(0.3, 0.3, 0.3);
 	walecZ(73, 10, 10, 2, 25);
@@ -793,10 +796,10 @@ void przyczepa(int x, int y, int z) {
 }
 
 void ciongnik(void) {
-	ko³a(5, 5); //8 figur
-	oœ(); //6 figur
+	koÂ³a(5, 5); //8 figur
+	oÅ“(); //6 figur
 	kloc(0,-2,0);
-	sprzêt(); //9 figur
+	sprzÃªt(); //9 figur
 	przyczepa(0, 0, 0); //9 figury
 }
 
@@ -931,8 +934,12 @@ void liscie(int r, int slices, int stacks) {
 	GLUquadricObj* obj;
 	obj = gluNewQuadric();
 	gluQuadricTexture(obj, GL_TRUE);
-	glColor3d(0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glColor3d(1.0, 0.8, 0.8);
+	glEnable(GL_TEXTURE_2D);
 	gluSphere(obj, r, slices, stacks);
+	glDisable(GL_TEXTURE_2D);
 }
 
 void drzewo(int x, int y, int z, int h) {
@@ -950,7 +957,38 @@ void kamien(int x, int y, int z, int r, int slices, int stacks) {
 	glTranslatef(x, y, z);
 	GLUquadricObj* obj;
 	obj = gluNewQuadric();
+	gluQuadricTexture(obj, GL_TRUE);
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glColor3d(1.0, 0.8, 0.8);
+	glEnable(GL_TEXTURE_2D);
 	gluSphere(obj, r, slices, stacks);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+
+void przeszkoda(int pozX, int pozZ) {
+
+	glColor3d(0.7, 0.7, 0.7);
+	glPushMatrix();
+	glTranslated(pozX, 2, pozZ - 5);
+	glRotated(50, 1, 0, 0);
+	glTranslated(-pozX, -2, -pozZ + 5);
+	walecY(pozX, 2, pozZ - 5, 5, 70);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(pozX + 25, 2, pozZ + 20);
+	glRotated(50, 0, 0, 1);
+	glTranslated(-pozX - 25, -2, -pozZ - 20);
+	walecY(pozX + 25, 2, pozZ + 20, 5, 70);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(pozX, 2 + 45, pozZ - 7);
+	glRotated(130, 1, 0, 0);
+	glTranslated(-pozX, -2 - 45, -pozZ + 7);
+	walecY(pozX, 2 + 45, pozZ - 7, 5, 70);
 	glPopMatrix();
 }
 //(0, 0, 2000);
@@ -1001,14 +1039,15 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	pasy(-800 + pozX, 78 + pozZ, dlugosc + 200, 10, pozycjaX2);
 	pasy(-800 + pozX, -22 + pozZ, dlugosc + 200, 10, pozycjaX2);
 
-	//kamienie2
+	//kamienie
 	kamien(50 + pozycjaXkamieni2, -10, pozycjaZkamienia11, 20, 20, 20);
 	kamien(150 + pozycjaXkamieni2, -10, -pozycjaZkamienia22, 20, 20, 20);
 	kamien(350 + pozycjaXkamieni2, -10, pozycjaZkamienia33, 20, 20, 20);
 	kamien(450 + pozycjaXkamieni2, -10, -pozycjaZkamienia44, 20, 20, 20);
 	kamien(650 + pozycjaXkamieni2, -10, pozycjaZkamienia55, 20, 20, 20);
 	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
-
+  
+	przeszkoda(pozycjaX3, pozycjaZ2);
 }
 
 void uklad()
@@ -1092,7 +1131,7 @@ void RenderScene(void)
 	/////////////////////////////////////////////////////////////////
 	//szescian();
 	
-	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
+	//SposÃ³b na odrÃ³Å¸nienie "przedniej" i "tylniej" Å“ciany wielokÂ¹ta:
 	glPolygonMode(GL_BACK,GL_LINE);
 
 	glPushMatrix();
@@ -1105,6 +1144,7 @@ void RenderScene(void)
 		mapa(0, 0,2000);
 	glPopMatrix();
 	//skrzynka();
+	//kula();
 
 
 	//uklad();
@@ -1320,7 +1360,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 				case 1:
 					if (pozycjaX <= -1200) 
 						pozycjaX = 600;
-					if (pozycjaX2 <= -1200) 
+					if (pozycjaX2 <= -1200)
 						pozycjaX2 = 600;
 					if (pozycjaXdrzew <= -1600) {
 						pozycjaXdrzew = 800;
@@ -1369,8 +1409,12 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 					pozycjaXkamieni -= 20;
 					pozycjaXkamieni2 -= 20;
 
-
 					InvalidateRect(hWnd, NULL, FALSE);
+
+					//if (pozycjaX3 < 0 && pozycjaZ == 0) {
+					//	//pozycjaZ += 50;
+					//	pozycjaX -= 1;
+					//}
 					break;
 			}
 			break;
@@ -1391,57 +1435,61 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			hRC = wglCreateContext(hDC);
 			wglMakeCurrent(hDC, hRC);
 			SetupRC();
-
-			bitmapData = LoadBitmapFile("rockTexture5.bmp", &bitmapInfoHeader);
-			unsigned int texture1;
-			glGenTextures(1, &texture1);
-			glBindTexture(GL_TEXTURE_2D, texture1);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 64, 64, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
-			if (bitmapData)
-				free(bitmapData);
-
-
-
 			glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
-			
-			// ³aduje pierwszy obraz tekstury:
-			bitmapData = LoadBitmapFile("rockTexture6.bmp", &bitmapInfoHeader);
-			
-			glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			// Â³aduje pierwszy obraz tekstury:
+			bitmapData = LoadBitmapFile("liscie.bmp", &bitmapInfoHeader);
+
+			glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 			// tworzy obraz tekstury
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
-						 bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
-			
-			if(bitmapData)
-			free(bitmapData);
+				bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
 
-			// ³aduje drugi obraz tekstury:
-			bitmapData = LoadBitmapFile("rockTexture6.bmp", &bitmapInfoHeader);
+			if (bitmapData)
+				free(bitmapData);
+
+			// Â³aduje drugi obraz tekstury:
+			bitmapData = LoadBitmapFile("kupakamieni.bmp", &bitmapInfoHeader);
 			glBindTexture(GL_TEXTURE_2D, texture[1]);       // aktywuje obiekt tekstury
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 			// tworzy obraz tekstury
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
-						 bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
-			
-			if(bitmapData)
-			free(bitmapData);
+				bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
 
-			// ustalenie sposobu mieszania tekstury z t³em
-			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_MODULATE);
+			if (bitmapData)
+				free(bitmapData);
+
+			bitmapData = LoadBitmapFile("trawa.bmp", &bitmapInfoHeader);
+			glBindTexture(GL_TEXTURE_2D, texture[2]);       // aktywuje obiekt tekstury
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+			// tworzy obraz tekstury
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, bitmapInfoHeader.biWidth,
+				bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
+
+			if (bitmapData)
+				free(bitmapData);
+
+			// ustalenie sposobu mieszania tekstury z tÂ³em
+			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			break;
 
 		// Window is being destroyed, cleanup
@@ -1541,7 +1589,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 				yRot += 5.0f;
 
 			if (wParam == 87) {
-				//pozycjaZ += 10;
+				//pozycjaX += 10;
 			}
 
 			if (wParam == 83) {
