@@ -1,10 +1,10 @@
 // Gl_template.c
-//Wy³šczanie b³êdów przed "fopen"
+//WyÂ³Å¡czanie bÂ³ÃªdÃ³w przed "fopen"
 #define  _CRT_SECURE_NO_WARNINGS
 
 
 
-// £adowanie bibliotek:
+// Â£adowanie bibliotek:
 
 #ifdef _MSC_VER                         // Check if MS Visual C compiler
 #  pragma comment(lib, "opengl32.lib")  // Compiler-specific directive to avoid manually configuration
@@ -32,10 +32,21 @@ typedef enum { FALSE, TRUE } bool;
 #include <math.h>				// Define for sqrt
 #include <stdio.h>
 #include "resource.h"           // About box resource identifiers.
-
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42		// identyfikator formatu BMP
 #define GL_PI 3.14
+time_t t;
+
+
+//tekstury
+
+
+
+
+
 
 // Color Palette handle
 HPALETTE hPalette = NULL;
@@ -54,11 +65,45 @@ int pozycjaX3 = 600;
 int pozycjaZ = 0;
 int pozycjaZ2 = 0;
 
+int pozycjaXdrzew = 1200;
+int pozycjaXdrzew2 = 0;
+
+int pozycjaZdrzewa1 = 220; 
+int pozycjaZdrzewa2 = 240; 
+int pozycjaZdrzewa3 = 260; 
+int pozycjaZdrzewa4 = 340; 
+int pozycjaZdrzewa5 = 210; 
+int pozycjaZdrzewa6 = 270;
+int pozycjaZdrzewa11 = 280;
+int pozycjaZdrzewa22 = 260;
+int pozycjaZdrzewa33 = 240;
+int pozycjaZdrzewa44 = 200;
+int pozycjaZdrzewa55 = 270;
+int pozycjaZdrzewa66 = 240;
+
+int pozycjaXkamieni = 1000;
+int pozycjaXkamieni2 = -200;
+
+int pozycjaZkamienia1 = 300;
+int pozycjaZkamienia2 = 300;
+int pozycjaZkamienia3 = 300;
+int pozycjaZkamienia4 = 300;
+int pozycjaZkamienia5 = 300;
+int pozycjaZkamienia6 = 300;
+int pozycjaZkamienia11 = 300;
+int pozycjaZkamienia22 = 300;
+int pozycjaZkamienia33 = 300;
+int pozycjaZkamienia44 = 300;
+int pozycjaZkamienia55 = 300;
+int pozycjaZkamienia66 = 300;
+
+//int pozycjaZdzew = rand() % 100 + 200;
+
 static GLsizei lastHeight;
 static GLsizei lastWidth;
 
 // Opis tekstury
-BITMAPINFOHEADER	bitmapInfoHeader;	// nag³ówek obrazu
+BITMAPINFOHEADER	bitmapInfoHeader;	// nagÂ³Ã³wek obrazu
 unsigned char*		bitmapData;			// dane tekstury
 unsigned int		texture[2];			// obiekt tekstury
 
@@ -215,7 +260,7 @@ void skrzynka(void)
 	glColor3d(1.0, 1.0, 1.0);
 
 
-	glEnable(GL_TEXTURE_2D); // W³¹cz teksturowanie
+	glEnable(GL_TEXTURE_2D); // WÂ³Â¹cz teksturowanie
 
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glBegin(GL_QUADS);
@@ -234,7 +279,7 @@ void skrzynka(void)
 	glTexCoord2d(0.0, 1.0); glVertex3d(25, 25, -25);
 	glEnd();
 
-	glDisable(GL_TEXTURE_2D); // Wy³¹cz teksturowanie
+	glDisable(GL_TEXTURE_2D); // WyÂ³Â¹cz teksturowanie
 
 
 
@@ -297,23 +342,23 @@ void kula(void)
 
 
 // LoadBitmapFile
-// opis: ³aduje mapê bitow¹ z pliku i zwraca jej adres.
-//       Wype³nia strukturê nag³ówka.
-//	 Nie obs³uguje map 8-bitowych.
+// opis: Â³aduje mapÃª bitowÂ¹ z pliku i zwraca jej adres.
+//       WypeÂ³nia strukturÃª nagÂ³Ã³wka.
+//	 Nie obsÂ³uguje map 8-bitowych.
 unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader)
 {
-	FILE *filePtr;							// wskaŸnik pozycji pliku
-	BITMAPFILEHEADER	bitmapFileHeader;		// nag³ówek pliku
+	FILE *filePtr;							// wskaÅ¸nik pozycji pliku
+	BITMAPFILEHEADER	bitmapFileHeader;		// nagÂ³Ã³wek pliku
 	unsigned char		*bitmapImage;			// dane obrazu
 	int					imageIdx = 0;		// licznik pikseli
-	unsigned char		tempRGB;				// zmienna zamiany sk³adowych
+	unsigned char		tempRGB;				// zmienna zamiany skÂ³adowych
 
 	// otwiera plik w trybie "read binary"
 	filePtr = fopen(filename, "rb");
 	if (filePtr == NULL)
 		return NULL;
 
-	// wczytuje nag³ówek pliku
+	// wczytuje nagÂ³Ã³wek pliku
 	fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 	
 	// sprawdza, czy jest to plik formatu BMP
@@ -323,16 +368,16 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 		return NULL;
 	}
 
-	// wczytuje nag³ówek obrazu
+	// wczytuje nagÂ³Ã³wek obrazu
 	fread(bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 
-	// ustawia wskaŸnik pozycji pliku na pocz¹tku danych obrazu
+	// ustawia wskaÅ¸nik pozycji pliku na poczÂ¹tku danych obrazu
 	fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
 
-	// przydziela pamiêæ buforowi obrazu
+	// przydziela pamiÃªÃ¦ buforowi obrazu
 	bitmapImage = (unsigned char*)malloc(bitmapInfoHeader->biSizeImage);
 
-	// sprawdza, czy uda³o siê przydzieliæ pamiêæ
+	// sprawdza, czy udaÂ³o siÃª przydzieliÃ¦ pamiÃªÃ¦
 	if (!bitmapImage)
 	{
 		free(bitmapImage);
@@ -343,14 +388,14 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 	// wczytuje dane obrazu
 	fread(bitmapImage, 1, bitmapInfoHeader->biSizeImage, filePtr);
 
-	// sprawdza, czy dane zosta³y wczytane
+	// sprawdza, czy dane zostaÂ³y wczytane
 	if (bitmapImage == NULL)
 	{
 		fclose(filePtr);
 		return NULL;
 	}
 
-	// zamienia miejscami sk³adowe R i B 
+	// zamienia miejscami skÂ³adowe R i B 
 	for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx+=3)
 	{
 		tempRGB = bitmapImage[imageIdx];
@@ -358,7 +403,7 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 		bitmapImage[imageIdx + 2] = tempRGB;
 	}
 
-	// zamyka plik i zwraca wskaŸnik bufora zawieraj¹cego wczytany obraz
+	// zamyka plik i zwraca wskaÅ¸nik bufora zawierajÂ¹cego wczytany obraz
 	fclose(filePtr);
 	return bitmapImage;
 }
@@ -461,7 +506,7 @@ void walecX(int zmienna_x, int zmienna_y, int zmienna_z, int r, int h) {
 	glEnd();
 }
 
-void ko³a(int r, int h) {
+void koÂ³a(int r, int h) {
 	glColor3d(1, 0.0, 0.0);
 	walecZ(40, 0, 0, r, h);
 
@@ -487,7 +532,7 @@ void ko³a(int r, int h) {
 	walecZ(0, 0, -1, r * 0.7, h + 2);
 }
 
-void oœ() {
+void oÅ“() {
 	int a = 5 / 2;
 	glColor3d(0.3, 0.3, 0.3);
 	walecZ(40, 0, a, 1, 40);
@@ -704,7 +749,7 @@ void kloc(int x, int y, int z) {
 
 }
 
-void sprzêt() {
+void sprzÃªt() {
 	
 	glColor3d(0.3, 0.3, 0.3);
 	walecZ(73, 10, 10, 2, 25);
@@ -751,10 +796,10 @@ void przyczepa(int x, int y, int z) {
 }
 
 void ciongnik(void) {
-	ko³a(5, 5); //8 figur
-	oœ(); //6 figur
+	koÂ³a(5, 5); //8 figur
+	oÅ“(); //6 figur
 	kloc(0,-2,0);
-	sprzêt(); //9 figur
+	sprzÃªt(); //9 figur
 	przyczepa(0, 0, 0); //9 figury
 }
 
@@ -953,9 +998,9 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	pasZieleni(-1000+pozX, 203 + szerokoscZieleni + pozZ, dlugosc, szerokoscZieleni);
 	pobocze(-1000 + pozX,203 + pozZ, dlugosc,30);
 
-	droga(-1000 + pozX,173 + pozZ, dlugosc,100,1,0,0);
-	droga(-1000 + pozX, 73 + pozZ, dlugosc, 100, 0, 1, 0);
-	droga(-1000 + pozX, -27 + pozZ, dlugosc, 100, 0, 0, 1);
+	droga(-1000 + pozX,173 + pozZ, dlugosc,100,0,0,0);
+	droga(-1000 + pozX, 73 + pozZ, dlugosc, 100, 0, 0, 0);
+	droga(-1000 + pozX, -27 + pozZ, dlugosc, 100, 0, 0, 0);
 
 	pobocze(-1000 + pozX, -127 + pozZ, dlugosc, 30);
 
@@ -965,46 +1010,43 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	pasy(-400 + pozX, -22 + pozZ, dlugosc +200, 10, pozycjaX);
 
 	//drzewa
-	drzewo(0 + pozycjaX, 0, 275, 70);
-	drzewo(100 + pozycjaX, 0, -270, 70);
-	drzewo(200 + pozycjaX, 0, 400, 70);
-	drzewo(300 + pozycjaX, 0, -300, 70);
-	drzewo(400 + pozycjaX, 0, 500, 70);
-	drzewo(500 + pozycjaX, 0, -220, 70);
+
+	drzewo(0 + pozycjaXdrzew2, 0, pozycjaZdrzewa3, 70);
+	drzewo(100 + pozycjaXdrzew2, 0, -pozycjaZdrzewa4, 70);
+	drzewo(300 + pozycjaXdrzew2, 0, pozycjaZdrzewa1, 70);
+	drzewo(400 + pozycjaXdrzew2, 0, -pozycjaZdrzewa6, 70);
+	drzewo(600 + pozycjaXdrzew2, 0, pozycjaZdrzewa2, 70);
+	drzewo(700 + pozycjaXdrzew2, 0, -pozycjaZdrzewa5, 70);
 
 	//kamienie
-	kamien(-50 + pozycjaX, -10, 243, 20, 20, 20);
-	kamien(-50 + pozycjaX, -10, -219, 20, 20, 20);
-	kamien(0 + pozycjaX, -10, 300, 20, 20, 20);
-	kamien(150 + pozycjaX, -10, -210, 20, 20, 20);
-	kamien(150 + pozycjaX, -10, 238, 20, 20, 20);
-	kamien(100 + pozycjaX, -10, -270, 20, 20, 20);
-	kamien(400 + pozycjaX, -10, 260, 20, 20, 20);
-	kamien(250 + pozycjaX, -10, -310, 20, 20, 20);
+	kamien(-50 + pozycjaXkamieni, -10, pozycjaZkamienia1, 20, 20, 20);
+	kamien(100 + pozycjaXkamieni, -10, -pozycjaZkamienia2, 20, 20, 20);
+	kamien(350 + pozycjaXkamieni, -10, pozycjaZkamienia3, 20, 20, 20);
+	kamien(440 + pozycjaXkamieni, -10, -pozycjaZkamienia4, 20, 20, 20);
+	kamien(660 + pozycjaXkamieni, -10, pozycjaZkamienia5, 20, 20, 20);
+	kamien(790 + pozycjaXkamieni, -10, -pozycjaZkamienia6, 20, 20, 20);
 
-	//drzewa i kamienie o 200 jednostek dalej
+	//drzewa i kamienie o 1200 jednostek dalej
 	//drzewa2
-	drzewo(0 + pozycjaX2, 0, 275, 70);
-	drzewo(100 + pozycjaX2, 0, -270, 70);
-	drzewo(200 + pozycjaX2, 0, 400, 70);
-	drzewo(300 + pozycjaX2, 0, -300, 70);
-	drzewo(400 + pozycjaX2, 0, 500, 70);
-	drzewo(500 + pozycjaX2, 0, -220, 70);
+
+	drzewo(0 + pozycjaXdrzew, 0, pozycjaZdrzewa11, 70);
+	drzewo(100 + pozycjaXdrzew, 0, -pozycjaZdrzewa22, 70);
+	drzewo(300 + pozycjaXdrzew, 0, pozycjaZdrzewa33, 70);
+	drzewo(400 + pozycjaXdrzew, 0, -pozycjaZdrzewa44, 70);
+	drzewo(600 + pozycjaXdrzew, 0, pozycjaZdrzewa55, 70);
+	drzewo(700 + pozycjaXdrzew, 0, -pozycjaZdrzewa66, 70);
 
 	pasy(-800 + pozX, 78 + pozZ, dlugosc + 200, 10, pozycjaX2);
 	pasy(-800 + pozX, -22 + pozZ, dlugosc + 200, 10, pozycjaX2);
 
-	//kamienie2
-	kamien(-50 + pozycjaX2, -10, 243, 20, 20, 20);
-	kamien(-50 + pozycjaX2, -10, -219, 20, 20, 20);
-	kamien(0 + pozycjaX2, -10, 300, 20, 20, 20);
-	kamien(150 + pozycjaX2, -10, -210, 20, 20, 20);
-	kamien(150 + pozycjaX2, -10, 238, 20, 20, 20);
-	kamien(100 + pozycjaX2, -10, -270, 20, 20, 20);
-	kamien(400 + pozycjaX2, -10, 260, 20, 20, 20);
-	kamien(250 + pozycjaX2, -10, -310, 20, 20, 20);
-
-
+	//kamienie
+	kamien(50 + pozycjaXkamieni2, -10, pozycjaZkamienia11, 20, 20, 20);
+	kamien(150 + pozycjaXkamieni2, -10, -pozycjaZkamienia22, 20, 20, 20);
+	kamien(350 + pozycjaXkamieni2, -10, pozycjaZkamienia33, 20, 20, 20);
+	kamien(450 + pozycjaXkamieni2, -10, -pozycjaZkamienia44, 20, 20, 20);
+	kamien(650 + pozycjaXkamieni2, -10, pozycjaZkamienia55, 20, 20, 20);
+	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
+  
 	przeszkoda(pozycjaX3, pozycjaZ2);
 }
 
@@ -1089,7 +1131,7 @@ void RenderScene(void)
 	/////////////////////////////////////////////////////////////////
 	//szescian();
 	
-	//Sposób na odróŸnienie "przedniej" i "tylniej" œciany wielok¹ta:
+	//SposÃ³b na odrÃ³Å¸nienie "przedniej" i "tylniej" Å“ciany wielokÂ¹ta:
 	glPolygonMode(GL_BACK,GL_LINE);
 
 	glPushMatrix();
@@ -1320,11 +1362,53 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 						pozycjaX = 600;
 					if (pozycjaX2 <= -1200)
 						pozycjaX2 = 600;
-					if (pozycjaX3 <= -1200)
-						pozycjaX3 = 600;
-					pozycjaX -= 4;
-					pozycjaX2 -= 4;
-					pozycjaX3 -= 4;
+					if (pozycjaXdrzew <= -1600) {
+						pozycjaXdrzew = 800;
+						pozycjaZdrzewa11 = (rand() % 250) + 200;
+						pozycjaZdrzewa22 = (rand() % 250) + 200;
+						pozycjaZdrzewa33 = (rand() % 250) + 200;
+						pozycjaZdrzewa44 = (rand() % 250) + 200;
+						pozycjaZdrzewa55 = (rand() % 250) + 200;
+						pozycjaZdrzewa66 = (rand() % 250) + 200;
+
+					}
+						
+					if (pozycjaXdrzew2 <= -1600) {
+						pozycjaXdrzew2 = 800;
+						pozycjaZdrzewa1 = (rand() % 250) + 200;
+						pozycjaZdrzewa2 = (rand() % 250) + 200;
+						pozycjaZdrzewa3 = (rand() % 250) + 200;
+						pozycjaZdrzewa4 = (rand() % 250) + 200;
+						pozycjaZdrzewa5 = (rand() % 250) + 200;
+						pozycjaZdrzewa6 = (rand() % 250) + 200;
+
+					}
+					if (pozycjaXkamieni <= -1600) {
+						pozycjaXkamieni = 800;
+						pozycjaZkamienia1 = (rand() % 150) + 250;
+						pozycjaZkamienia2 = (rand() % 150) + 250;
+						pozycjaZkamienia3 = (rand() % 150) + 250;
+						pozycjaZkamienia4 = (rand() % 150) + 250;
+						pozycjaZkamienia5 = (rand() % 150) + 250;
+						pozycjaZkamienia6 = (rand() % 150) + 250;
+					}
+					if (pozycjaXkamieni2 <= -1600) {
+						pozycjaXkamieni2 = 800;
+						pozycjaZkamienia11 = (rand() % 150) + 250;
+						pozycjaZkamienia22 = (rand() % 150) + 250;
+						pozycjaZkamienia33 = (rand() % 150) + 250;
+						pozycjaZkamienia44 = (rand() % 150) + 250;
+						pozycjaZkamienia55 = (rand() % 150) + 250;
+						pozycjaZkamienia66 = (rand() % 150) + 250;
+					}
+				
+					pozycjaX-=20;
+					pozycjaX2-=20;
+					pozycjaXdrzew -= 20;
+					pozycjaXdrzew2 -= 20;
+					pozycjaXkamieni -= 20;
+					pozycjaXkamieni2 -= 20;
+
 					InvalidateRect(hWnd, NULL, FALSE);
 
 					//if (pozycjaX3 < 0 && pozycjaZ == 0) {
@@ -1353,7 +1437,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			SetupRC();
 			glGenTextures(2, &texture[0]);                  // tworzy obiekt tekstury			
 
-			// ³aduje pierwszy obraz tekstury:
+			// Â³aduje pierwszy obraz tekstury:
 			bitmapData = LoadBitmapFile("liscie.bmp", &bitmapInfoHeader);
 
 			glBindTexture(GL_TEXTURE_2D, texture[0]);       // aktywuje obiekt tekstury
@@ -1371,7 +1455,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			if (bitmapData)
 				free(bitmapData);
 
-			// ³aduje drugi obraz tekstury:
+			// Â³aduje drugi obraz tekstury:
 			bitmapData = LoadBitmapFile("kupakamieni.bmp", &bitmapInfoHeader);
 			glBindTexture(GL_TEXTURE_2D, texture[1]);       // aktywuje obiekt tekstury
 
@@ -1404,7 +1488,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			if (bitmapData)
 				free(bitmapData);
 
-			// ustalenie sposobu mieszania tekstury z t³em
+			// ustalenie sposobu mieszania tekstury z tÂ³em
 			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			break;
 
