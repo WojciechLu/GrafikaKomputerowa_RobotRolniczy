@@ -59,6 +59,8 @@ static HINSTANCE hInstance;
 static GLfloat xRot = 40.0f;
 static GLfloat yRot = 90.0f;
 
+int ruchZ = 0;
+
 int pozycjaX = 0;
 int pozycjaX2 = 1200;
 int pozycjaX3 = 600;
@@ -506,33 +508,39 @@ void walecX(int zmienna_x, int zmienna_y, int zmienna_z, int r, int h) {
 	glEnd();
 }
 
-void ko³a(int r, int h) {
-	glColor3d(1, 0.0, 0.0);
-	walecZ(40, 0, 0, r, h);
+void kola(int r, int h) {
 
-	glColor3d(0.2, 0.2, 0.2);
-	walecZ(40, 0, -1, r*0.7, h+2);
+	glPushMatrix();
+	glRotated(ruchZ+10, 1, 0, 0);
+		glColor3d(1, 0.0, 0.0);
+		walecZ(40, 0, 0, r, h);
+		glColor3d(0.2, 0.2, 0.2);
+		walecZ(40, 0, -1, r * 0.7, h + 2);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, 45);
+	glRotated(ruchZ+10, 1, 0, 0);
+	glTranslated(0, 0, -45);
+		glColor3d(-200, 0.0, 1);
+		walecZ(40, 0, 40, r, h);
+		glColor3d(0.2, 0.2, 0.2);
+		walecZ(40, 0, 39, r * 0.7, h + 2);
+	glPopMatrix();
+
 
 	glColor3d(0, 1.0, 0);
 	walecZ(0, 0, 40, r, h);
-
 	glColor3d(0.2, 0.2, 0.2);
 	walecZ(0, 0, 39, r * 0.7, h + 2);
 
-	glColor3d(0, 0.0, 1);
-	walecZ(40, 0, 40, r, h);
-
-	glColor3d(0.2, 0.2, 0.2);
-	walecZ(40, 0, 39, r * 0.7, h + 2);
-
 	glColor3d(0, 0, 0);
 	walecZ(0, 0, 0, r, h);
-
 	glColor3d(0.2, 0.2, 0.2);
 	walecZ(0, 0, -1, r * 0.7, h + 2);
 }
 
-void oœ() {
+void os() {
 	int a = 5 / 2;
 	glColor3d(0.3, 0.3, 0.3);
 	walecZ(40, 0, a, 1, 40);
@@ -749,7 +757,7 @@ void kloc(int x, int y, int z) {
 
 }
 
-void sprzêt() {
+void sprzet() {
 	
 	glColor3d(0.3, 0.3, 0.3);
 	walecZ(73, 10, 10, 2, 25);
@@ -796,10 +804,10 @@ void przyczepa(int x, int y, int z) {
 }
 
 void ciongnik(void) {
-	ko³a(5, 5); //8 figur
-	oœ(); //6 figur
+	kola(5, 5); //8 figur
+	os(); //6 figur
 	kloc(0,-2,0);
-	sprzêt(); //9 figur
+	sprzet(); //9 figur
 	przyczepa(0, 0, 0); //9 figury
 }
 
@@ -837,6 +845,7 @@ void walec(double r, double h)
 	}
 	glEnd();
 }
+
 void ramie(double r1, double r2, double h, double d)
 {
 	double PI = 3.14, alpha, x, y;
@@ -1030,11 +1039,11 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	//drzewa2
 
 	drzewo(0 + pozycjaXdrzew, 0, pozycjaZdrzewa11, 70);
-	drzewo(100 + pozycjaXdrzew, 0, -pozycjaZdrzewa22, 70);
-	drzewo(300 + pozycjaXdrzew, 0, pozycjaZdrzewa33, 70);
+	drzewo(100 + pozycjaXdrzew, 0, -pozycjaZdrzewa22, 60);
+	drzewo(300 + pozycjaXdrzew, 0, pozycjaZdrzewa33, 75);
 	drzewo(400 + pozycjaXdrzew, 0, -pozycjaZdrzewa44, 70);
-	drzewo(600 + pozycjaXdrzew, 0, pozycjaZdrzewa55, 70);
-	drzewo(700 + pozycjaXdrzew, 0, -pozycjaZdrzewa66, 70);
+	drzewo(600 + pozycjaXdrzew, 0, pozycjaZdrzewa55, 80);
+	drzewo(700 + pozycjaXdrzew, 0, -pozycjaZdrzewa66, 75);
 
 	pasy(-800 + pozX, 78 + pozZ, dlugosc + 200, 10, pozycjaX2);
 	pasy(-800 + pozX, -22 + pozZ, dlugosc + 200, 10, pozycjaX2);
@@ -1048,6 +1057,8 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
   
 	przeszkoda(pozycjaX3, pozycjaZ2);
+
+	drzewo(-700, 0, 0, 70);
 }
 
 void uklad()
@@ -1136,7 +1147,6 @@ void RenderScene(void)
 
 	glPushMatrix();
 	glTranslatef(1000, -300, -25);
-
 		glPushMatrix();
 		glTranslatef(-800,0,pozycjaZ);
 			ciongnik();
@@ -1401,13 +1411,14 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 						pozycjaZkamienia55 = (rand() % 150) + 250;
 						pozycjaZkamienia66 = (rand() % 150) + 250;
 					}
-				
-					pozycjaX-=20;
-					pozycjaX2-=20;
-					pozycjaXdrzew -= 20;
-					pozycjaXdrzew2 -= 20;
-					pozycjaXkamieni -= 20;
-					pozycjaXkamieni2 -= 20;
+					
+					int predkosc = 10;
+					pozycjaX-=predkosc;
+					pozycjaX2-= predkosc;
+					pozycjaXdrzew -= predkosc;
+					pozycjaXdrzew2 -= predkosc;
+					pozycjaXkamieni -= predkosc;
+					pozycjaXkamieni2 -= predkosc;
 
 					InvalidateRect(hWnd, NULL, FALSE);
 
@@ -1415,6 +1426,15 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 					//	//pozycjaZ += 50;
 					//	pozycjaX -= 1;
 					//}
+					if (ruchZ > 0) {
+						pozycjaZ += predkosc/2;
+						ruchZ -= predkosc/2;
+					}
+					if (ruchZ < 0) {
+						pozycjaZ -= predkosc/2;
+						ruchZ += predkosc/2;
+					}
+
 					break;
 			}
 			break;
@@ -1424,7 +1444,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			SetTimer(hWnd, 1, 5, NULL);
 			// Store the device context
 			hDC = GetDC(hWnd);              
-
+			
 			// Select the pixel format
 			SetDCPixelFormat(hDC);          
 
@@ -1587,23 +1607,20 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 
 			if(wParam == VK_RIGHT)
 				yRot += 5.0f;
-
-			if (wParam == 87) {
-				//pozycjaX += 10;
-			}
-
-			if (wParam == 83) {
-				//pozycjaX -= 10;
-			}
 				
 			if (wParam == 68) { //D
-				pozycjaZ += 100;
-				if (pozycjaZ > 100) pozycjaZ = -100;
+				if (pozycjaZ >= 100) pozycjaZ = -100;
+				else{
+					ruchZ = 100;
+				}
 			}
 
 			if (wParam == 65) { //A
-				pozycjaZ -= 100;
-				if (pozycjaZ < -100) pozycjaZ = 100;
+				//pozycjaZ -= 100;
+				if (pozycjaZ <= -100) pozycjaZ = 100;
+				else {
+					ruchZ = -100;
+				}
 			}
 
 			xRot = (const int)xRot % 360;
