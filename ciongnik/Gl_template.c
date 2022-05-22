@@ -817,9 +817,9 @@ void pudlo(int x, int y, int z) {
 		GLfloat xb[3] = { -18 - 50 - 20 + x ,18 + y,z + 45 };
 		GLfloat xc[3] = { -18 - 50 - 20 + x + 50,18 + y ,z };
 		GLfloat xd[3] = { -18 - 50 - 20 + x + 50 ,18 + y,z + 45 };
-		glBindTexture(GL_TEXTURE_2D, texture[1]);
-		glNormal3d(0, 0, 1);
-		glBegin(GL_TRIANGLE_STRIP);
+		//glBindTexture(GL_TEXTURE_2D, texture[1]);
+		//glNormal3d(0, 0, 1);
+		//glBegin(GL_TRIANGLE_STRIP);
 		
 		glTexCoord2d(1.0, 1.0); 
 		glVertex3fv(xa);
@@ -829,7 +829,7 @@ void pudlo(int x, int y, int z) {
 		glVertex3fv(xc);
 		glTexCoord2d(0.0, 0.0); 
 		glVertex3fv(xd);
-		glEnd();
+		//glEnd();
 	}
 	glDisable(GL_TEXTURE_2D); 
 	
@@ -1111,7 +1111,7 @@ void mapa(int pozX, int pozZ, int dlugosc) {
   
 	przeszkoda(pozycjaX3, pozycjaZ2);
 
-	drzewo(-700, 0, 0, 70);
+	//drzewo(-700, 0, 0, 70);
 }
 
 void uklad()
