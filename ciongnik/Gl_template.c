@@ -512,7 +512,7 @@ void kola(int r, int h) {
 
 	glPushMatrix();
 	glRotated(ruchZ+10, 1, 0, 0);
-		glColor3d(1, 0.0, 0.0);
+	glColor3d(0.3, 0.3, 0.3);
 		walecZ(40, 0, 0, r, h);
 		glColor3d(0.2, 0.2, 0.2);
 		walecZ(40, 0, -1, r * 0.7, h + 2);
@@ -522,19 +522,19 @@ void kola(int r, int h) {
 	glTranslatef(0, 0, 45);
 	glRotated(ruchZ+10, 1, 0, 0);
 	glTranslated(0, 0, -45);
-		glColor3d(-200, 0.0, 1);
+		glColor3d(0.3, 0.3, 0.3);
 		walecZ(40, 0, 40, r, h);
 		glColor3d(0.2, 0.2, 0.2);
 		walecZ(40, 0, 39, r * 0.7, h + 2);
 	glPopMatrix();
 
 
-	glColor3d(0, 1.0, 0);
+	glColor3d(0.3, 0.3, 0.3);
 	walecZ(0, 0, 40, r, h);
 	glColor3d(0.2, 0.2, 0.2);
 	walecZ(0, 0, 39, r * 0.7, h + 2);
 
-	glColor3d(0, 0, 0);
+	glColor3d(0.3, 0.3, 0.3);
 	walecZ(0, 0, 0, r, h);
 	glColor3d(0.2, 0.2, 0.2);
 	walecZ(0, 0, -1, r * 0.7, h + 2);
@@ -817,9 +817,9 @@ void pudlo(int x, int y, int z) {
 		GLfloat xb[3] = { -18 - 50 - 20 + x ,18 + y,z + 45 };
 		GLfloat xc[3] = { -18 - 50 - 20 + x + 50,18 + y ,z };
 		GLfloat xd[3] = { -18 - 50 - 20 + x + 50 ,18 + y,z + 45 };
-		//glBindTexture(GL_TEXTURE_2D, texture[1]);
-		//glNormal3d(0, 0, 1);
-		//glBegin(GL_TRIANGLE_STRIP);
+		glBindTexture(GL_TEXTURE_2D, texture[1]);
+		glNormal3d(0, 0, 1);
+		glBegin(GL_TRIANGLE_STRIP);
 		
 		glTexCoord2d(1.0, 1.0); 
 		glVertex3fv(xa);
@@ -829,7 +829,7 @@ void pudlo(int x, int y, int z) {
 		glVertex3fv(xc);
 		glTexCoord2d(0.0, 0.0); 
 		glVertex3fv(xd);
-		//glEnd();
+		glEnd();
 	}
 	glDisable(GL_TEXTURE_2D); 
 	
@@ -1109,9 +1109,10 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	kamien(650 + pozycjaXkamieni2, -10, pozycjaZkamienia55, 20, 20, 20);
 	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
   
-	przeszkoda(pozycjaX3, pozycjaZ2);
+	
 
 	//drzewo(-700, 0, 0, 70);
+	//przeszkoda(pozycjaX3, pozycjaZ2);
 }
 
 void uklad()
@@ -1530,7 +1531,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 
 			// ³aduje drugi obraz tekstury:
 
-			bitmapData = LoadBitmapFile("weed.bmp", &bitmapInfoHeader);
+			bitmapData = LoadBitmapFile("weed2.bmp", &bitmapInfoHeader);
 			glBindTexture(GL_TEXTURE_2D, texture[1]);       // aktywuje obiekt tekstury
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -1546,7 +1547,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			if (bitmapData)
 				free(bitmapData);
 
-			bitmapData = LoadBitmapFile("kupakamieni.bmp", &bitmapInfoHeader);
+			bitmapData = LoadBitmapFile("kamien.bmp", &bitmapInfoHeader);
 			glBindTexture(GL_TEXTURE_2D, texture[2]);       // aktywuje obiekt tekstury
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
