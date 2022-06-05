@@ -1110,9 +1110,21 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	kamien(650 + pozycjaXkamieni2, -10, pozycjaZkamienia55, 20, 20, 20);
 	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
 
-	przeszkoda(pozycjaXP1, pozycjaZ2);
-	przeszkoda(pozycjaXP2, pozycjaZP2);
-	przeszkoda(pozycjaXP3, pozycjaZP3);
+
+	glPushMatrix();
+	glTranslatef(0, 0, pozycjaZP1);
+	przeszkoda(pozycjaXP1, 0);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, pozycjaZP2);
+	przeszkoda(pozycjaXP2, 0);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, pozycjaZP3);
+	przeszkoda(pozycjaXP3, 0);
+	glPopMatrix();
 	//przeszkoda(pozycjaXkamieni2 - 300, pozycjaZ2 + 100);
 }
 
@@ -1453,12 +1465,18 @@ void ruch() {
 	}
 	if (pozycjaXP1 <= -1400) {
 		pozycjaXP1 = 800;
+		pozycjaZP1 += 100;
+		if (pozycjaZP1 > 100) pozycjaZP1 = -100;
 	}
 	if (pozycjaXP2 <= -1400) {
 		pozycjaXP2 = 800;
+		pozycjaZP2 += 100;
+		if (pozycjaZP2 > 100) pozycjaZP2 = -100;
 	}
 	if (pozycjaXP3 <= -1400) {
 		pozycjaXP3 = 800;
+		pozycjaZP3 += 100;
+		if (pozycjaZP3 > 100) pozycjaZP3 = -100;
 	}
 
 	int predkosc = 10;
@@ -1483,9 +1501,15 @@ void ruch() {
 }
 
 void kolizja() {
-	if (pozycjaZ == pozycjaZP1 && pozycjaXP1 <= hitboxX1 && pozycjaXP1 >= hitboxX2) start = 0;
-	else if (pozycjaZ == pozycjaZP2 && pozycjaXP2 <= hitboxX1 && pozycjaXP2 >= hitboxX2) start = 0;
-	else if (pozycjaZ == pozycjaZP3 && pozycjaXP3 <= hitboxX1 && pozycjaXP3 >= hitboxX2) start = 0;
+	if (pozycjaZ == pozycjaZP1 && pozycjaXP1 <= hitboxX1 && pozycjaXP1 >= hitboxX2) {
+		start = 0;
+	}
+	else if (pozycjaZ == pozycjaZP2 && pozycjaXP2 <= hitboxX1 && pozycjaXP2 >= hitboxX2) {
+		start = 0;
+	}
+	else if (pozycjaZ == pozycjaZP3 && pozycjaXP3 <= hitboxX1 && pozycjaXP3 >= hitboxX2) {
+		start = 0;
+	}
 	//else if(pozycjaZ == )
 
 }
