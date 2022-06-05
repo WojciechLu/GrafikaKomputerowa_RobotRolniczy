@@ -99,6 +99,11 @@ int pozycjaZkamienia44 = 300;
 int pozycjaZkamienia55 = 300;
 int pozycjaZkamienia66 = 300;
 
+int hitboxX = 185;
+int hitboxY = 100;
+
+int start = 1;
+
 //int pozycjaZdzew = rand() % 100 + 200;
 
 static GLsizei lastHeight;
@@ -1031,27 +1036,13 @@ void kamien(int x, int y, int z, int r, int slices, int stacks) {
 
 void przeszkoda(int pozX, int pozZ) {
 
-	glColor3d(0.7, 0.7, 0.7);
-	glPushMatrix();
-	glTranslated(pozX, 2, pozZ - 5);
-	glRotated(50, 1, 0, 0);
-	glTranslated(-pozX, -2, -pozZ + 5);
-	walecY(pozX, 2, pozZ - 5, 5, 70);
-	glPopMatrix();
+	glColor3f(0.3f, 0.3f, 0.3f);
+	walecY(pozX, 2, pozZ, 3, 30);
+	walecY(pozX, 2, pozZ + 45, 3, 30);
 
-	glPushMatrix();
-	glTranslated(pozX + 25, 2, pozZ + 20);
-	glRotated(50, 0, 0, 1);
-	glTranslated(-pozX - 25, -2, -pozZ - 20);
-	walecY(pozX + 25, 2, pozZ + 20, 5, 70);
-	glPopMatrix();
+	glColor3f(0.8f, 0.0f, 0.0f);
+	szescian(pozX - 3, 2 + 30, pozZ + 55, 6, 30, 45 + 20);
 
-	glPushMatrix();
-	glTranslated(pozX, 2 + 45, pozZ - 7);
-	glRotated(130, 1, 0, 0);
-	glTranslated(-pozX, -2 - 45, -pozZ + 7);
-	walecY(pozX, 2 + 45, pozZ - 7, 5, 70);
-	glPopMatrix();
 }
 //(0, 0, 2000);
 //jeden pasek to 200jednostek
@@ -1108,11 +1099,11 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	kamien(450 + pozycjaXkamieni2, -10, -pozycjaZkamienia44, 20, 20, 20);
 	kamien(650 + pozycjaXkamieni2, -10, pozycjaZkamienia55, 20, 20, 20);
 	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
-  
-	
 
-	//drzewo(-700, 0, 0, 70);
-	//przeszkoda(pozycjaX3, pozycjaZ2);
+	przeszkoda(pozycjaXkamieni + 200, pozycjaZ2);
+	przeszkoda(pozycjaXkamieni2, pozycjaZ2 -100);
+	przeszkoda(pozycjaXdrzew, pozycjaZ2 + 100);
+	przeszkoda(pozycjaXkamieni2 - 300, pozycjaZ2 + 100);
 }
 
 void uklad()
@@ -1204,6 +1195,7 @@ void RenderScene(void)
 		glPushMatrix();
 		glTranslatef(-800,0,pozycjaZ);
 			ciongnik();
+			szescian(-88, 0, 0, 40 + 32 + 20 + 45 + 48, 5, 5);
 		glPopMatrix();
 		mapa(0, 0,2000);
 	glPopMatrix();
@@ -1422,29 +1414,30 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 		case WM_TIMER:
 			switch (wParam) {
 				case 1:
-					if (pozycjaX <= -1200) 
-						pozycjaX = 600;
-					if (pozycjaX2 <= -1200)
-						pozycjaX2 = 600;
-					if (pozycjaXdrzew <= -1600) {
-						pozycjaXdrzew = 800;
-						pozycjaZdrzewa11 = (rand() % 250) + 200;
-						pozycjaZdrzewa22 = (rand() % 250) + 200;
-						pozycjaZdrzewa33 = (rand() % 250) + 200;
-						pozycjaZdrzewa44 = (rand() % 250) + 200;
-						pozycjaZdrzewa55 = (rand() % 250) + 200;
-						pozycjaZdrzewa66 = (rand() % 250) + 200;
+					if (start == 1) {
+						if (pozycjaX <= -1200)
+							pozycjaX = 600;
+						if (pozycjaX2 <= -1200)
+							pozycjaX2 = 600;
+						if (pozycjaXdrzew <= -1600) {
+							pozycjaXdrzew = 800;
+							pozycjaZdrzewa11 = (rand() % 250) + 200;
+							pozycjaZdrzewa22 = (rand() % 250) + 200;
+							pozycjaZdrzewa33 = (rand() % 250) + 200;
+							pozycjaZdrzewa44 = (rand() % 250) + 200;
+							pozycjaZdrzewa55 = (rand() % 250) + 200;
+							pozycjaZdrzewa66 = (rand() % 250) + 200;
 
-					}
-						
-					if (pozycjaXdrzew2 <= -1600) {
-						pozycjaXdrzew2 = 800;
-						pozycjaZdrzewa1 = (rand() % 250) + 200;
-						pozycjaZdrzewa2 = (rand() % 250) + 200;
-						pozycjaZdrzewa3 = (rand() % 250) + 200;
-						pozycjaZdrzewa4 = (rand() % 250) + 200;
-						pozycjaZdrzewa5 = (rand() % 250) + 200;
-						pozycjaZdrzewa6 = (rand() % 250) + 200;
+						}
+
+						if (pozycjaXdrzew2 <= -1600) {
+							pozycjaXdrzew2 = 800;
+							pozycjaZdrzewa1 = (rand() % 250) + 200;
+							pozycjaZdrzewa2 = (rand() % 250) + 200;
+							pozycjaZdrzewa3 = (rand() % 250) + 200;
+							pozycjaZdrzewa4 = (rand() % 250) + 200;
+							pozycjaZdrzewa5 = (rand() % 250) + 200;
+							pozycjaZdrzewa6 = (rand() % 250) + 200;
 
 					}
 					if (pozycjaXkamieni <= -1600) {
@@ -1473,6 +1466,9 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 					pozycjaXdrzew2 -= predkosc;
 					pozycjaXkamieni -= predkosc;
 					pozycjaXkamieni2 -= predkosc;
+
+						//if()
+					}
 
 					InvalidateRect(hWnd, NULL, FALSE);
 
