@@ -99,8 +99,18 @@ int pozycjaZkamienia44 = 300;
 int pozycjaZkamienia55 = 300;
 int pozycjaZkamienia66 = 300;
 
-int hitboxX = 185;
-int hitboxY = 100;
+int hitboxX1 = -800 - 100 - 200;
+int hitboxX2 = -800 - 100 - 200 - 200;
+int hitboxZ = 48;
+
+int pozycjaXP1 = 1000;
+int pozycjaZP1 = 0;
+int pozycjaXP2 = -200;
+int pozycjaZP2 = -100;
+int pozycjaXP3 = 1200;
+int pozycjaZP3 = 100;
+int pozycjaXP4 = 0;
+int pozycjaZP4 = 0;
 
 int start = 1;
 
@@ -1035,7 +1045,7 @@ void kamien(int x, int y, int z, int r, int slices, int stacks) {
 }
 
 void przeszkoda(int pozX, int pozZ) {
-
+	pozX += 400;
 	glColor3f(0.3f, 0.3f, 0.3f);
 	walecY(pozX, 2, pozZ, 3, 30);
 	walecY(pozX, 2, pozZ + 45, 3, 30);
@@ -1100,10 +1110,10 @@ void mapa(int pozX, int pozZ, int dlugosc) {
 	kamien(650 + pozycjaXkamieni2, -10, pozycjaZkamienia55, 20, 20, 20);
 	kamien(750 + pozycjaXkamieni2, -10, -pozycjaZkamienia66, 20, 20, 20);
 
-	przeszkoda(pozycjaXkamieni + 200, pozycjaZ2);
-	przeszkoda(pozycjaXkamieni2, pozycjaZ2 -100);
-	przeszkoda(pozycjaXdrzew, pozycjaZ2 + 100);
-	przeszkoda(pozycjaXkamieni2 - 300, pozycjaZ2 + 100);
+	przeszkoda(pozycjaXP1, pozycjaZ2);
+	przeszkoda(pozycjaXP2, pozycjaZP2);
+	przeszkoda(pozycjaXP3, pozycjaZP3);
+	//przeszkoda(pozycjaXkamieni2 - 300, pozycjaZ2 + 100);
 }
 
 void uklad()
@@ -1195,7 +1205,7 @@ void RenderScene(void)
 		glPushMatrix();
 		glTranslatef(-800,0,pozycjaZ);
 			ciongnik();
-			szescian(-88, 0, 0, 40 + 32 + 20 + 45 + 48, 5, 5);
+			szescian(-88, 0, hitboxZ, 185, 5, hitboxZ);
 		glPopMatrix();
 		mapa(0, 0,2000);
 	glPopMatrix();
@@ -1397,8 +1407,88 @@ int APIENTRY WinMain(   HINSTANCE       hInst,
 	}
 
 
+void ruch() {
+	if (pozycjaX <= -1200)
+		pozycjaX = 600;
+	if (pozycjaX2 <= -1200)
+		pozycjaX2 = 600;
+	if (pozycjaXdrzew <= -1600) {
+		pozycjaXdrzew = 800;
+		pozycjaZdrzewa11 = (rand() % 250) + 200;
+		pozycjaZdrzewa22 = (rand() % 250) + 200;
+		pozycjaZdrzewa33 = (rand() % 250) + 200;
+		pozycjaZdrzewa44 = (rand() % 250) + 200;
+		pozycjaZdrzewa55 = (rand() % 250) + 200;
+		pozycjaZdrzewa66 = (rand() % 250) + 200;
 
+	}
 
+	if (pozycjaXdrzew2 <= -1600) {
+		pozycjaXdrzew2 = 800;
+		pozycjaZdrzewa1 = (rand() % 250) + 200;
+		pozycjaZdrzewa2 = (rand() % 250) + 200;
+		pozycjaZdrzewa3 = (rand() % 250) + 200;
+		pozycjaZdrzewa4 = (rand() % 250) + 200;
+		pozycjaZdrzewa5 = (rand() % 250) + 200;
+		pozycjaZdrzewa6 = (rand() % 250) + 200;
+
+	}
+	if (pozycjaXkamieni <= -1600) {
+		pozycjaXkamieni = 800;
+		pozycjaZkamienia1 = (rand() % 150) + 250;
+		pozycjaZkamienia2 = (rand() % 150) + 250;
+		pozycjaZkamienia3 = (rand() % 150) + 250;
+		pozycjaZkamienia4 = (rand() % 150) + 250;
+		pozycjaZkamienia5 = (rand() % 150) + 250;
+		pozycjaZkamienia6 = (rand() % 150) + 250;
+	}
+	if (pozycjaXkamieni2 <= -1600) {
+		pozycjaXkamieni2 = 800;
+		pozycjaZkamienia11 = (rand() % 150) + 250;
+		pozycjaZkamienia22 = (rand() % 150) + 250;
+		pozycjaZkamienia33 = (rand() % 150) + 250;
+		pozycjaZkamienia44 = (rand() % 150) + 250;
+		pozycjaZkamienia55 = (rand() % 150) + 250;
+		pozycjaZkamienia66 = (rand() % 150) + 250;
+	}
+	if (pozycjaXP1 <= -1400) {
+		pozycjaXP1 = 800;
+	}
+	if (pozycjaXP2 <= -1400) {
+		pozycjaXP2 = 800;
+	}
+	if (pozycjaXP3 <= -1400) {
+		pozycjaXP3 = 800;
+	}
+
+	int predkosc = 10;
+	pozycjaX -= predkosc;
+	pozycjaX2 -= predkosc;
+	pozycjaXdrzew -= predkosc;
+	pozycjaXdrzew2 -= predkosc;
+	pozycjaXkamieni -= predkosc;
+	pozycjaXkamieni2 -= predkosc;
+	pozycjaXP1 -= predkosc;
+	pozycjaXP2 -= predkosc;
+	pozycjaXP3 -= predkosc;
+
+	if (ruchZ > 0) {
+		pozycjaZ += predkosc / 2;
+		ruchZ -= predkosc / 2;
+	}
+	if (ruchZ < 0) {
+		pozycjaZ -= predkosc / 2;
+		ruchZ += predkosc / 2;
+	}
+}
+
+void kolizja() {
+	if (pozycjaZ == pozycjaZP1 && pozycjaXP1 <= hitboxX1 && pozycjaXP1 >= hitboxX2) start = 0;
+	else if (pozycjaZ == pozycjaZP2 && pozycjaXP2 <= hitboxX1 && pozycjaXP2 >= hitboxX2) start = 0;
+	else if (pozycjaZ == pozycjaZP3 && pozycjaXP3 <= hitboxX1 && pozycjaXP3 >= hitboxX2) start = 0;
+	//else if(pozycjaZ == )
+
+}
 // Window procedure, handles all messages for this program
 LRESULT CALLBACK WndProc(       HWND    hWnd,
 							UINT    message,
@@ -1415,58 +1505,8 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 			switch (wParam) {
 				case 1:
 					if (start == 1) {
-						if (pozycjaX <= -1200)
-							pozycjaX = 600;
-						if (pozycjaX2 <= -1200)
-							pozycjaX2 = 600;
-						if (pozycjaXdrzew <= -1600) {
-							pozycjaXdrzew = 800;
-							pozycjaZdrzewa11 = (rand() % 250) + 200;
-							pozycjaZdrzewa22 = (rand() % 250) + 200;
-							pozycjaZdrzewa33 = (rand() % 250) + 200;
-							pozycjaZdrzewa44 = (rand() % 250) + 200;
-							pozycjaZdrzewa55 = (rand() % 250) + 200;
-							pozycjaZdrzewa66 = (rand() % 250) + 200;
-
-						}
-
-						if (pozycjaXdrzew2 <= -1600) {
-							pozycjaXdrzew2 = 800;
-							pozycjaZdrzewa1 = (rand() % 250) + 200;
-							pozycjaZdrzewa2 = (rand() % 250) + 200;
-							pozycjaZdrzewa3 = (rand() % 250) + 200;
-							pozycjaZdrzewa4 = (rand() % 250) + 200;
-							pozycjaZdrzewa5 = (rand() % 250) + 200;
-							pozycjaZdrzewa6 = (rand() % 250) + 200;
-
-					}
-					if (pozycjaXkamieni <= -1600) {
-						pozycjaXkamieni = 800;
-						pozycjaZkamienia1 = (rand() % 150) + 250;
-						pozycjaZkamienia2 = (rand() % 150) + 250;
-						pozycjaZkamienia3 = (rand() % 150) + 250;
-						pozycjaZkamienia4 = (rand() % 150) + 250;
-						pozycjaZkamienia5 = (rand() % 150) + 250;
-						pozycjaZkamienia6 = (rand() % 150) + 250;
-					}
-					if (pozycjaXkamieni2 <= -1600) {
-						pozycjaXkamieni2 = 800;
-						pozycjaZkamienia11 = (rand() % 150) + 250;
-						pozycjaZkamienia22 = (rand() % 150) + 250;
-						pozycjaZkamienia33 = (rand() % 150) + 250;
-						pozycjaZkamienia44 = (rand() % 150) + 250;
-						pozycjaZkamienia55 = (rand() % 150) + 250;
-						pozycjaZkamienia66 = (rand() % 150) + 250;
-					}
-					
-					int predkosc = 10;
-					pozycjaX-=predkosc;
-					pozycjaX2-= predkosc;
-					pozycjaXdrzew -= predkosc;
-					pozycjaXdrzew2 -= predkosc;
-					pozycjaXkamieni -= predkosc;
-					pozycjaXkamieni2 -= predkosc;
-
+						ruch();
+						kolizja();
 						//if()
 					}
 
@@ -1476,14 +1516,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 					//	//pozycjaZ += 50;
 					//	pozycjaX -= 1;
 					//}
-					if (ruchZ > 0) {
-						pozycjaZ += predkosc/2;
-						ruchZ -= predkosc/2;
-					}
-					if (ruchZ < 0) {
-						pozycjaZ -= predkosc/2;
-						ruchZ += predkosc/2;
-					}
+
 
 					break;
 			}
@@ -1676,7 +1709,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 				yRot += 5.0f;
 				
 			if (wParam == 68) { //D
-				if (pozycjaZ >= 100) pozycjaZ = -100;
+				if (pozycjaZ >= 100) pozycjaZ = pozycjaZ;
 				else{
 					ruchZ = 100;
 				}
@@ -1684,7 +1717,7 @@ LRESULT CALLBACK WndProc(       HWND    hWnd,
 
 			if (wParam == 65) { //A
 				//pozycjaZ -= 100;
-				if (pozycjaZ <= -100) pozycjaZ = 100;
+				if (pozycjaZ <= -100) pozycjaZ = pozycjaZ;
 				else {
 					ruchZ = -100;
 				}
